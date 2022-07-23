@@ -1,7 +1,22 @@
+import { useState } from "react";
+
 const Form = (props) => {
+  const [name, setName] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.addTask("Heyyyy");
+
+    // here target is the form and we access the input element
+    //  it's name attribute i.e. text
+    if (e.target.text.value !== "") {
+      console.log(e.target.text.value);
+      props.addTask(name);
+      setName("");
+    }
+  };
+
+  const handleChange = (e) => {
+    setName(e.target.value);
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -16,6 +31,8 @@ const Form = (props) => {
         className="input input__lg"
         name="text"
         autoComplete="off"
+        value={name}
+        onChange={handleChange}
       />
       <button type="submit" className="btn btn__primary btn__lg">
         Add
