@@ -17,7 +17,19 @@ function App(props) {
   };
 
   const toggleTaskComleted = (id) => {
-    console.log(tasks[0]);
+    const updatedTasks = tasks.map((task) => {
+      if (id === task.id) {
+        console.log(task);
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  };
+
+  const deleteTask = (id) => {
+    const remainingTask = tasks.filter((task) => id !== task.id);
+    setTasks(remainingTask);
   };
 
   return (
@@ -43,6 +55,7 @@ function App(props) {
               completed={task.completed}
               key={task.id}
               toggleTaskComleted={toggleTaskComleted}
+              deleteTask={deleteTask}
             />
           );
         })}
