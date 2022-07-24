@@ -3,6 +3,7 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import { toHaveStyle } from "@testing-library/jest-dom/dist/matchers";
 
 function App(props) {
   const [tasks, setTasks] = useState(props.tasks);
@@ -16,7 +17,22 @@ function App(props) {
     console.log(tasks);
   };
 
-  const toggleTaskComleted = (id) => {
+  const editTask = (id, newName) => {
+    const editedTasks = tasks.map((task) => {
+      if (id === task.id) {
+        return { ...task, name: newName };
+      }
+      return task;
+    });
+    setTasks(editedTasks);
+  };
+
+  const deleteTask = (id) => {
+    const remainingTask = tasks.filter((task) => id !== task.id);
+    setTasks(remainingTask);
+  };
+
+  const toggleTaskCompleted = (id) => {
     const updatedTasks = tasks.map((task) => {
       if (id === task.id) {
         console.log(task);
@@ -25,11 +41,6 @@ function App(props) {
       return task;
     });
     setTasks(updatedTasks);
-  };
-
-  const deleteTask = (id) => {
-    const remainingTask = tasks.filter((task) => id !== task.id);
-    setTasks(remainingTask);
   };
 
   return (
@@ -54,8 +65,9 @@ function App(props) {
               name={task.name}
               completed={task.completed}
               key={task.id}
-              toggleTaskComleted={toggleTaskComleted}
+              toggleTaskCompleted={toggleTaskCompleted}
               deleteTask={deleteTask}
+              editTask={editTask}
             />
           );
         })}
